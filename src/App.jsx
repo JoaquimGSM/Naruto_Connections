@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import { 
   ReactFlow,
@@ -16,6 +16,20 @@ const nodeTypes = {
 };
 
 export default function App() {
+
+  const [personagensSelecionados, setPersonagensSelecionados] = useState([]);
+
+  function selecionarPersonagem(event, node) {
+    setPersonagensSelecionados((anteriores) => {
+      if (anteriores.length >= 2) {
+        return anteriores;
+      }
+
+      return [...anteriores, node.data];
+    });
+  }
+
+
   const nodes = useMemo(
     () =>
       characters
@@ -58,12 +72,17 @@ export default function App() {
             edges={[]}
             nodeTypes={nodeTypes}
             nodesConnectable={false}
+            onNodeClick={selecionarPersonagem}
             fitView
           >
             <Background color="#475569" gap={24} />
             <Controls />
           </ReactFlow>
         </section>
+        <p className="mt-4 text-orange-400">
+          Selecionados:{" "}
+          {personagensSelecionados.map((personagem) => personagem.name).join(", ") || "Nenhum"}
+        </p>
       </div>
     </main>
   );
