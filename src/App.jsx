@@ -2,9 +2,8 @@ import { useMemo, useState } from "react";
 
 import GameBoard from "./components/GameBoard";
 
-import CharacterNode from "./components/CharacterNode";
 import { characters } from "./data/characters";
-
+import Justificativa from "./components/Justificativa";
 
 
 export default function App() {
@@ -12,6 +11,8 @@ export default function App() {
   const [personagensSelecionados, setPersonagensSelecionados] = useState([]);
 
   const [conexoes, setConexoes] = useState([]);
+
+  const [justificativa, setJustificativa] = useState("");
 
   function selecionarPersonagem(event, node) {
     setPersonagensSelecionados((anteriores) => {
@@ -32,6 +33,44 @@ export default function App() {
 
       return [...anteriores, node.data];
     });
+  }
+
+  function criarConexao() {
+    if (personagensSelecionados.length !== 2) {
+      return;
+    }
+
+    if (justificativa.trim() === "") {
+      return;
+    }
+
+    const [primeiro, segundo] = personagensSelecionados;
+    
+    const existeConexao = conexoes.some((conexao) => {
+      return (
+        (conexao.source === primeiro.id && conexao.target === segundo.id) ||
+        (conexao.source === segundo.id && conexao.target === primeiro.id)
+      );
+    });
+
+    if (existeConexao) {
+      return;
+    }
+
+    const novaConexao = {
+      id: `${primeiro.id}-${segundo.id}`,
+      source: primeiro.id,
+      target: segundo.id,
+      data: {
+        justificativa: justificativa.trim(),
+      },
+    };
+
+    setConexoes((anteriores) => [
+      ...anteriores,
+      novaConexao,
+    ]);
+    setJustificativa("");
   }
 
 
@@ -85,6 +124,17 @@ export default function App() {
           Selecionados:{" "}
           {personagensSelecionados.map((personagem) => personagem.name).join(", ") || "Nenhum"}
         </p>
+        <button
+          onClick={criarConexao}
+          disabled={personagensSelecionados.length !== 2}
+          className="mt-4 rounded-lg bg-orange-500 px-5 py-3 font-semibold text-black disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Criar conexão
+        </button>
+        <Justificativa
+          justificativa={justificativa}
+          setJustificativa={setJustificativa}
+        />
       </div>
     </main>
   );
