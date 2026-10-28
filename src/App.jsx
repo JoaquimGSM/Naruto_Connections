@@ -14,6 +14,8 @@ export default function App() {
 
   const [justificativa, setJustificativa] = useState("");
 
+  const [conexaoSelecionada, setConexaoSelecionada] = useState(null);
+
   function selecionarPersonagem(event, node) {
     setPersonagensSelecionados((anteriores) => {
 
@@ -64,6 +66,11 @@ export default function App() {
       data: {
         justificativa: justificativa.trim(),
       },
+      type: "chakra",
+
+      data: {
+        justificativa: justificativa.trim(),
+      },
     };
 
     setConexoes((anteriores) => [
@@ -97,6 +104,10 @@ export default function App() {
     [personagensSelecionados]
   );
 
+  function selecionarConexao(event, edge) {
+  setConexaoSelecionada(edge);
+}
+
   return (
     <main className="min-h-screen bg-[#11151b] p-8 text-white">
       <div className="mx-auto max-w-6xl">
@@ -119,7 +130,13 @@ export default function App() {
             nodes={nodes}
             conexoes={conexoes}
             selecionarPersonagem={selecionarPersonagem}
+            selecionarConexao={selecionarConexao}
           />
+          {conexaoSelecionada && (
+            <p className="mt-4 text-green-400">
+              Justificativa: {conexaoSelecionada.data?.justificativa}
+            </p>
+          )}
         <p className="mt-4 text-orange-400">
           Selecionados:{" "}
           {personagensSelecionados.map((personagem) => personagem.name).join(", ") || "Nenhum"}

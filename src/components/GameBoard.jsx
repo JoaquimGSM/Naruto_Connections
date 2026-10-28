@@ -8,11 +8,17 @@ import "@xyflow/react/dist/style.css";
 
 import CharacterNode from "./CharacterNode";
 
+import ChakraEdge from "./ChakraEdge";
+
 const nodeTypes = {
   character: CharacterNode,
 };
 
-export default function GameBoard({ nodes, conexoes, selecionarPersonagem }) {
+const edgeTypes = {
+  chakra: ChakraEdge,
+};
+
+export default function GameBoard({ nodes, conexoes, selecionarPersonagem, selecionarConexao }) {
   return (
     <section className="h-[550px] overflow-hidden rounded-xl border border-slate-700 bg-[#1c242d]">
       <ReactFlow
@@ -21,6 +27,8 @@ export default function GameBoard({ nodes, conexoes, selecionarPersonagem }) {
         nodeTypes={nodeTypes}
         nodesConnectable={false}
         onNodeClick={selecionarPersonagem}
+        onEdgeClick={selecionarConexao}
+        edgeTypes={edgeTypes}
         fitView
       >
         <Background color="#475569" gap={24} />

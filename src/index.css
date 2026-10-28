@@ -34,3 +34,47 @@ body {
 .react-flow__controls-button svg {
   fill: #ffffff;
 }
+
+/* Corrente principal de chakra */
+.chakra-base {
+  fill: none;
+  stroke: #00aaff;
+  stroke-width: 3;
+  stroke-linecap: round;
+
+  filter:
+    drop-shadow(0 0 4px #00aaff)
+    drop-shadow(0 0 10px #0077ff);
+}
+
+/* Pulso de energia percorrendo a conexão */
+.chakra-energia {
+  fill: none;
+  stroke: #e0ffff;
+  stroke-width: 5;
+  stroke-linecap: round;
+
+  stroke-dasharray: 12 40;
+
+  filter:
+    drop-shadow(0 0 5px #ffffff)
+    drop-shadow(0 0 12px #00ccff);
+
+  animation: fluxo-chakra 1.5s linear infinite;
+}
+
+@keyframes fluxo-chakra {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -104;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chakra-energia {
+    animation: none;
+  }
+}
