@@ -1,23 +1,17 @@
 import { useMemo, useState } from "react";
 
-import { 
-  ReactFlow,
-  Background,
-  Controls
-} from "@xyflow/react";
-
-import "@xyflow/react/dist/style.css";
+import GameBoard from "./components/GameBoard";
 
 import CharacterNode from "./components/CharacterNode";
 import { characters } from "./data/characters";
 
-const nodeTypes = {
-  character: CharacterNode,
-};
+
 
 export default function App() {
 
   const [personagensSelecionados, setPersonagensSelecionados] = useState([]);
+
+  const [conexoes, setConexoes] = useState([]);
 
   function selecionarPersonagem(event, node) {
     setPersonagensSelecionados((anteriores) => {
@@ -54,9 +48,14 @@ export default function App() {
             x: index * 250,
             y: 150,
           },
-          data: personagem,
+          data: {
+            ...personagem,
+            selecionado: personagensSelecionados.some(
+              (selecionado) => selecionado.id === personagem.id
+            ),
+          },
         })),
-    []
+    [personagensSelecionados]
   );
 
   return (
@@ -77,19 +76,11 @@ export default function App() {
           </p>
         </header>
 
-        <section className="h-[550px] overflow-hidden rounded-xl border border-slate-700 bg-[#1c242d]">
-          <ReactFlow
+          <GameBoard
             nodes={nodes}
-            edges={[]}
-            nodeTypes={nodeTypes}
-            nodesConnectable={false}
-            onNodeClick={selecionarPersonagem}
-            fitView
-          >
-            <Background color="#475569" gap={24} />
-            <Controls />
-          </ReactFlow>
-        </section>
+            conexoes={conexoes}
+            selecionarPersonagem={selecionarPersonagem}
+          />
         <p className="mt-4 text-orange-400">
           Selecionados:{" "}
           {personagensSelecionados.map((personagem) => personagem.name).join(", ") || "Nenhum"}

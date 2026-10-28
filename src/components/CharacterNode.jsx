@@ -6,7 +6,11 @@ export default function CharacterNode({ data }) {
       <Handle type="target" position={Position.Left} />
 
       <div
-        className="flex h-18 w-18 items-center justify-center rounded-full border-4 border-white/20 text-2xl font-bold text-white"
+        className={`flex h-18 w-18 items-center justify-center rounded-full border-4 text-2xl font-bold text-white ${
+        data.selecionado
+          ? "border-orange-400"
+          : "border-white/20"
+      }`}
         style={{ backgroundColor: data.color }}
       >
         {data.initial}
