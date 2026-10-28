@@ -21,6 +21,17 @@ export default function App() {
 
   function selecionarPersonagem(event, node) {
     setPersonagensSelecionados((anteriores) => {
+
+      const existe = anteriores.some(
+        (personagem) => personagem.id === node.data.id
+      );
+
+      if (existe) {
+      return anteriores.filter(
+        (personagem) => personagem.id !== node.data.id
+        );
+      }
+
       if (anteriores.length >= 2) {
         return anteriores;
       }
