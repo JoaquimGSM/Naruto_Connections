@@ -1,12 +1,14 @@
 import { useState } from "react";
 
-export default function EditarJustificativa({ conexao }) {
+export default function EditarJustificativa({ conexao, salvarJustificativa }) {
 
     const [editando, setEditando] = useState(false);
 
     const [novoTexto, setNovoTexto] = useState(
         conexao.data?.justificativa ?? ""
     );
+
+
 
     return (
         <div className="mt-4 rounded-lg bg-slate-800 p-4">
@@ -23,13 +25,24 @@ export default function EditarJustificativa({ conexao }) {
             </button>
 
             {editando && (
-                <textarea
-                    value={novoTexto}
-                    onChange={(event) => setNovoTexto(event.target.value)}
-                    className="mt-4 block w-full rounded-lg bg-slate-700 p-3 text-white"
-                />
+                <>
+                    <textarea
+                        value={novoTexto}
+                        onChange={(event) => setNovoTexto(event.target.value)}
+                        className="mt-4 block w-full rounded-lg bg-slate-700 p-3 text-white"
+                    />
+                    <button
+                        disabled={!novoTexto.trim()}
+                        onClick={() => {
+                            salvarJustificativa(conexao.id, novoTexto);
+                            setEditando(false);
+                        }}
+                        className="mt-3 rounded-lg bg-green-600 px-4 py-2 text-white disabled:opacity-40"
+                    >
+                        Salvar alteração
+                    </button>
+                </>
             )}
-
         </div>
     );
 }

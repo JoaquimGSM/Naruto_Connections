@@ -104,6 +104,29 @@ export default function App() {
     setConexaoSelecionada(edge);
   }
 
+
+  function salvarJustificativa(id, novoTexto) {
+    setConexoes((anteriores) =>
+      anteriores.map((conexao) => {
+        if (conexao.id === id) {
+          return {
+            ...conexao,
+            data: {
+              ...conexao.data,
+              justificativa: novoTexto.trim(),
+            },
+          };
+        }
+
+        return conexao;
+      })
+    );
+  }
+
+  const conexaoAtual = conexoes.find(
+    (conexao) => conexao.id === conexaoSelecionada?.id
+  );
+
   return (
     <main className="min-h-screen bg-[#11151b] p-8 text-white">
       <div className="mx-auto max-w-6xl">
@@ -128,10 +151,11 @@ export default function App() {
           selecionarPersonagem={selecionarPersonagem}
           selecionarConexao={selecionarConexao}
         />
-        {conexaoSelecionada && (
+        {conexaoAtual && (
           <EditarJustificativa
-            key={conexaoSelecionada.id}
-            conexao={conexaoSelecionada}
+            key={conexaoAtual.id}
+            conexao={conexaoAtual}
+            salvarJustificativa={salvarJustificativa}
           />
         )}
         <p className="mt-4 text-orange-400">
