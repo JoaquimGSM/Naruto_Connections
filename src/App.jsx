@@ -4,7 +4,7 @@ import GameBoard from "./components/GameBoard";
 
 import { characters } from "./data/characters";
 import Justificativa from "./components/Justificativa";
-
+import EditarJustificativa from "./components/EditarJustificativa";
 
 export default function App() {
 
@@ -24,8 +24,8 @@ export default function App() {
       );
 
       if (existe) {
-      return anteriores.filter(
-        (personagem) => personagem.id !== node.data.id
+        return anteriores.filter(
+          (personagem) => personagem.id !== node.data.id
         );
       }
 
@@ -47,7 +47,7 @@ export default function App() {
     }
 
     const [primeiro, segundo] = personagensSelecionados;
-    
+
     const existeConexao = conexoes.some((conexao) => {
       return (
         (conexao.source === primeiro.id && conexao.target === segundo.id) ||
@@ -67,10 +67,6 @@ export default function App() {
         justificativa: justificativa.trim(),
       },
       type: "chakra",
-
-      data: {
-        justificativa: justificativa.trim(),
-      },
     };
 
     setConexoes((anteriores) => [
@@ -105,8 +101,8 @@ export default function App() {
   );
 
   function selecionarConexao(event, edge) {
-  setConexaoSelecionada(edge);
-}
+    setConexaoSelecionada(edge);
+  }
 
   return (
     <main className="min-h-screen bg-[#11151b] p-8 text-white">
@@ -126,17 +122,18 @@ export default function App() {
           </p>
         </header>
 
-          <GameBoard
-            nodes={nodes}
-            conexoes={conexoes}
-            selecionarPersonagem={selecionarPersonagem}
-            selecionarConexao={selecionarConexao}
+        <GameBoard
+          nodes={nodes}
+          conexoes={conexoes}
+          selecionarPersonagem={selecionarPersonagem}
+          selecionarConexao={selecionarConexao}
+        />
+        {conexaoSelecionada && (
+          <EditarJustificativa
+            key={conexaoSelecionada.id}
+            conexao={conexaoSelecionada}
           />
-          {conexaoSelecionada && (
-            <p className="mt-4 text-green-400">
-              Justificativa: {conexaoSelecionada.data?.justificativa}
-            </p>
-          )}
+        )}
         <p className="mt-4 text-orange-400">
           Selecionados:{" "}
           {personagensSelecionados.map((personagem) => personagem.name).join(", ") || "Nenhum"}
