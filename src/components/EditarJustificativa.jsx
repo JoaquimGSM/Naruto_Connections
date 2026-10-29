@@ -18,7 +18,10 @@ export default function EditarJustificativa({ conexao, salvarJustificativa }) {
             </p>
 
             <button
-                onClick={() => setEditando(!editando)}
+                onClick={() => {
+                    setNovoTexto(conexao.data?.justificativa ?? "");
+                    setEditando(!editando);
+                }}
                 className="mt-3 rounded-lg bg-orange-500 px-4 py-2 text-black"
             >
                 {editando ? "Cancelar edição" : "Editar justificativa"}
